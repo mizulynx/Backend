@@ -1,6 +1,4 @@
-def imageName = "localhost:8082/docker_registry/backend"
-def dockerRegistry = "http://localhost:8082"
-def registryCredentials = "artifactory"
+def imageName = "backend"
 def dockerTag = ""
 
 pipeline {
@@ -42,13 +40,10 @@ pipeline {
                 }
             }
         }
-        stage('Pushing image to docker registry') {
+        stage('Tag image as latest') {
             steps {
                 script {
-                    docker.withRegistry("$dockerRegistry", "$registryCredentials") {
-                        applicationImage.push()
-                        applicationImage.push('latest')
-                    }
+                    applicationImage.tag('latest')
                 }
             }
         }
